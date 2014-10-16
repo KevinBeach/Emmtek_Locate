@@ -64,6 +64,7 @@ public class Locate extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class LocateFragment extends Fragment {
+        //Main fragment - in google maps branch this will hold the map
         private Button mLocate;
         private WebView mMapWebView;
         private SharedPreferences sharedPreferences;
