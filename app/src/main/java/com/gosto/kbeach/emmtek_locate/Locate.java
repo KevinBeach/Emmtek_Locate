@@ -16,6 +16,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
+import static com.gosto.kbeach.emmtek_locate.R.string.sms_send_message;
+
 
 public class Locate extends ActionBarActivity {
 
@@ -116,14 +118,14 @@ public class Locate extends ActionBarActivity {
                 public void onClick(View view) {
                     Toast.makeText(getActivity(),"button clicked",Toast.LENGTH_LONG).show();
                     String mPhoneNumber;
-                    String mSmsText = new String("LOCATE");
+                    //String mSmsText = "LOCATION";
                     mPhoneNumber = sharedPreferences.getString("phone","Default");
                     if (mPhoneNumber.equals("Default")){
                         Toast.makeText(getActivity(),"Set EmmTek Phone Number",Toast.LENGTH_LONG).show();
 
                     }
                     else{
-                        SmsSend smsSend = new SmsSend(mPhoneNumber,mSmsText);
+                        SmsSend smsSend = new SmsSend(mPhoneNumber,getString(R.string.sms_send_message));
                         if (smsSend.Send()){
                             Toast.makeText(getActivity(), "Your sms has successfully sent!",
                                     Toast.LENGTH_LONG).show();

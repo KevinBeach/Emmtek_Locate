@@ -4,6 +4,7 @@
     <string name="app_name">Emmtek_Locate</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="http_ref_string">https://maps.google.co</string>
+    <string name="http_ref_string">http</string>
+    <string name="sms_send_message">LOCATION</string>
 
 </resources>
