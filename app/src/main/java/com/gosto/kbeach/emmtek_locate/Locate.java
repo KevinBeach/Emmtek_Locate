@@ -116,7 +116,7 @@ public class Locate extends ActionBarActivity {
             mLocate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getActivity(),"button clicked",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(),"button clicked",Toast.LENGTH_LONG).show();
                     String mPhoneNumber;
                     //String mSmsText = "LOCATION";
                     mPhoneNumber = sharedPreferences.getString("phone","Default");

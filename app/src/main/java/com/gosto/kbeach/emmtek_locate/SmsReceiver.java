@@ -49,22 +49,22 @@ public class SmsReceiver extends BroadcastReceiver {
                     if (mPhoneNumber.substring(mPhoneNumber.length() - 10).equals(senderPhoneNumber.substring(senderPhoneNumber.length() - 10))) {
 
                         //display SMS message
-                        Toast.makeText(context, messageReceived, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, messageReceived, Toast.LENGTH_SHORT).show();
                         //get the HTTP address from message - strCheck validates address
                         String strCheck = context.getString(R.string.http_ref_string);
                         if(messageReceived.indexOf(strCheck) > -1) {
                             String mapAddress = messageReceived.substring(messageReceived.indexOf(strCheck));
-                            Toast.makeText(context, mapAddress, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(context, mapAddress, Toast.LENGTH_LONG).show();
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("mapaddress",mapAddress);
                             editor.commit();
 
                         }else{
-                            Toast.makeText(context, "No HTTP address", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "No HTTP address", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
-                        Toast.makeText(context, "Different phone number", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "Different phone number", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
