@@ -11,7 +11,7 @@ public class SmsSend {
     private String text;
 
     //constuctor for SmSSend
-    public SmsSend (String phone, String body) {
+    public SmsSend(String phone, String body) {
         phoneNumber = phone;
         text = body;
     }

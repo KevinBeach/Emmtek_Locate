@@ -10,13 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
-import static com.gosto.kbeach.emmtek_locate.R.string.sms_send_message;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class Locate extends ActionBarActivity {
@@ -65,10 +65,11 @@ public class Locate extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class LocateFragment extends Fragment {
+    public class LocateFragment extends Fragment {
         //Main fragment - in google maps branch this will hold the map
         private Button mLocate;
-        private WebView mMapWebView;
+        private MapView mMapView;
+        private GoogleMap mMap;
         private SharedPreferences sharedPreferences;
         public LocateFragment() {
         }
@@ -78,20 +79,24 @@ public class Locate extends ActionBarActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_locate, container, false);
             mLocate = (Button) rootView.findViewById(R.id.buttonLocate);
-            mMapWebView = (WebView) rootView.findViewById(R.id.webViewLocate);
+            mMapView = (MapView) rootView.findViewById(R.id.mapViewLocate);
+            mMapView.onCreate(savedInstanceState);
+            setUpMapIfNeeded();
             sharedPreferences = getActivity().getSharedPreferences("LocateData", Context.MODE_PRIVATE);
             final String mURL = sharedPreferences.getString("mapaddress","https://www.google.co.uk/maps/@54.8736587,-4.8013245,6z?hl=en");
+
+
             //Add in new client with override URL Loading to prevent browser selection
-            mMapWebView.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    return false;
-                }
-            });
-            //Set JavaScript to be enabled for google maps.
-            WebSettings webSettings = mMapWebView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-            mMapWebView.loadUrl(mURL);
+//            mMapWebView.setWebViewClient(new WebViewClient() {
+//                @Override
+//                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                    return false;
+//                }
+//            });
+//            //Set JavaScript to be enabled for google maps.
+//            WebSettings webSettings = mMapWebView.getSettings();
+//            webSettings.setJavaScriptEnabled(true);
+//            mMapWebView.loadUrl(mURL);
 
             //add in the shared preferences listener to update the map on changes to shared preference
             // this is a bit clunky - change to using the broadcast listener SMS inside the fragment
@@ -102,11 +107,11 @@ public class Locate extends ActionBarActivity {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
                     //Toast.makeText(getActivity(), "preference changed", Toast.LENGTH_SHORT).show();
-                    if (s.equals("mapaddress")){
-                        //Toast.makeText(getActivity(), "mapaddress changed", Toast.LENGTH_SHORT).show();
-                        final String mURL = sharedPreferences.getString("mapaddress","https://www.google.co.uk/maps/@54.8736587,-4.8013245,6z?hl=en");
-                        mMapWebView.loadUrl(mURL);
-                    }
+//                    if (s.equals("mapaddress")){
+//                        //Toast.makeText(getActivity(), "mapaddress changed", Toast.LENGTH_SHORT).show();
+//                        final String mURL = sharedPreferences.getString("mapaddress","https://www.google.co.uk/maps/@54.8736587,-4.8013245,6z?hl=en");
+//                        mMapWebView.loadUrl(mURL);
+//                    }
                 }
             };
 
@@ -138,6 +143,37 @@ public class Locate extends ActionBarActivity {
                 }
             });
             return rootView;
+        }
+
+        private void setUpMapIfNeeded() {
+            if (mMap == null){
+                mMap = ((MapView) findViewById (R.id.mapViewLocate)).getMap();
+                if (mMap != null){
+                    setUpMap();
+                }
+
+            }
+        }
+
+        private void setUpMap() {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("Marker"));
+        }
+        @Override
+        public void onPause(){
+            mMapView.onPause();
+            super.onPause();
+        }
+        public void onDestroy(){
+            mMapView.onDestroy();
+            super.onDestroy();
+        }
+        public void onLowMemory(){
+            mMapView.onLowMemory();
+            super.onLowMemory();
+        }
+        public void onSaveInstanceState(Bundle outState){
+            super.onSaveInstanceState(outState);
+            mMapView.onSaveInstanceState(outState);
         }
     }
 }
